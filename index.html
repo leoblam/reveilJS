@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Réveil</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #current-time {
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-size: 1.2rem;
+        color: #333;
+      }
+
+      input[type="time"] {
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      #set-alarm {
+        background-color: #80df83;
+        color: white;
+        margin-right: 10px;
+      }
+
+      #toggle-alarm {
+        background-color: #fd7167;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Réveil</h1>
+    <div id="current-time"></div>
+        <div>
+            <label for="alarm-time">Heure du réveil :</label>
+        </div>
+        <div>
+            <input type="time" step="1" id="alarm-time" value="00:00:00" />
+        </div>
+        <div>
+            <button id="set-alarm">Régler le réveil</button>
+            <button id="toggle-alarm">Activer/Désactiver</button>
+        </div>
+    </div>
+
+    <script>
+      const currentTimeDisplay = document.getElementById("current-time");
+      const alarmTimeInput = document.getElementById("alarm-time");
+      const setAlarmButton = document.getElementById("set-alarm");
+      const toggleAlarmButton = document.getElementById("toggle-alarm");
+      let alarmTime;
+      let alarmActive = false;
+
+      // Fonction pour obtenir l'heure actuelle et l'afficher
+      function updateCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        currentTimeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+        // Vérifier si l'heure actuelle correspond à l'heure du réveil
+        if (alarmActive && alarmTime === `${hours}:${minutes}:${seconds}`) {
+          const music = new Audio("son.wav");
+          function soundMulti(){
+          music.play();
+          console.log("L'alarme sonne !");
+        }
+        setInterval(soundMulti, 2000);
+            // alert("Réveil !");
+          // Vous pouvez remplacer `alert('Réveil !');` par du code pour jouer un son, etc.
+        }
+      }
+
+      // Mettre à jour l'heure actuelle chaque seconde
+      setInterval(updateCurrentTime, 1000);
+
+      // Fonction pour régler l'heure du réveil
+      setAlarmButton.addEventListener("click", function () {
+        alarmTime = alarmTimeInput.value;
+        console.log("Réveil réglé à :", alarmTime);
+      });
+
+      // Fonction pour activer/désactiver le réveil
+      toggleAlarmButton.addEventListener("click", function () {
+        alarmActive = !alarmActive;
+        if (alarmActive) {
+          console.log("Réveil activé");
+        } else {
+          console.log("Réveil désactivé");
+        }
+      });
+    </script>
+  </body>
+</html>
